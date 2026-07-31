@@ -70,6 +70,13 @@ A few fleet-wide issues worth knowing before deploying broadly:
 - **Windows agent2 needs an explicit smartctl path.** The `Plugins.Smart.Path` setting in `smart.conf` is often left commented out by default — set it explicitly to your `smartctl.exe` path rather than relying on `%PATH%`, since the Agent 2 service does not reliably inherit interactive-session PATH changes.
 - **RAID-mode NVMe (Intel RST/VMD) will not report native NVMe SMART data.** Drives behind RST in RAID mode surface as a generic ATA/CSMI passthrough device and will fail `-d nvme` queries outright. This is a driver-stack limitation, not a plugin bug — switching the controller to AHCI/NVMe passthrough mode in BIOS is the only real fix.
 - **A confirmed upstream agent2 bug** (strict exit-status handling in the SMART plugin discarding valid SMART JSON on non-zero smartctl exit codes — [ZBX-26359](https://support.zabbix.com/browse/ZBX-26359)) can cause `smart.disk.discovery` to silently drop *all* devices on a host when just one device errors (e.g., a dead optical drive or unsupported USB bridge). A fix is in progress upstream as of this writing; until it ships, affected hosts may show incomplete or empty SMART discovery despite having healthy drives.
+- **Discovery can silently time out on hosts with several devices, even when your server config looks fine.** Zabbix 8.0 has two separate timeout settings that are easy to conflate:
+  1. The legacy `Timeout` value in `zabbix_server.conf`
+  2. A newer, separate set of per-item-type timeouts under **Administration → General → Timeouts** (introduced in 7.0+)
+
+  The discovery rule inherits from #2, not #1 — raising `zabbix_server.conf`'s `Timeout` alone does nothing for it. The frontend's default **Zabbix agent** item-type timeout is only **3s**, which is too short once `smart.disk.discovery` has to enumerate several real devices plus RAID/CSMI passthrough paths (observed taking ~4.8s on a host with 6+ discovered paths). The discovery rule's config page will show `Timeout: Global: 3s` when this is the cause.
+
+  **Fix:** *Administration → General → Timeouts* → raise the **Zabbix agent** item-type timeout to 15–30s → Update. This is a global setting, so it fixes the issue fleet-wide in one change rather than per-host.
 
 ## License
 
