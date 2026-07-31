@@ -1,0 +1,22 @@
+zabbix_export:
+  version: '8.0'
+  template_groups:
+    - uuid: 7df96b18c230490a9a0a9e2307226338
+      name: Templates
+  templates:
+    - uuid: 8ca5d45c6e324600a0e3524c06f8a709
+      template: 'SMART status'
+      name: 'SMART status'
+      groups:
+        - name: Templates
+      items:
+        - uuid: c168ac27c0084636930564b06c0a8504
+          name: 'Unsupported items on {HOST.NAME}'
+          type: INTERNAL
+          key: 'zabbix[host,,items_unsupported]'
+          delay: 5m
+          triggers:
+            - uuid: 300c621072e94484af3de26ebd2cafdd
+              expression: 'last(/SMART status/zabbix[host,,items_unsupported])>0'
+              name: 'Unsupported items present on {HOST.NAME}'
+              priority: WARNING
