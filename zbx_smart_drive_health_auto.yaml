@@ -1,0 +1,1151 @@
+zabbix_export:
+  version: '8.0'
+  dashboards:
+  - name: Smart Drive Health (Auto)
+    pages:
+    - name: Fleet Health
+      widgets:
+      - type: tophosts
+        name: Host / SMART collection status
+        width: '72'
+        height: '10'
+        fields:
+        - type: INTEGER
+          name: column
+          value: '1'
+        - type: INTEGER
+          name: columns.0.data
+          value: '2'
+        - type: STRING
+          name: columns.0.name
+          value: Hostname
+        - type: INTEGER
+          name: columns.1.data
+          value: '1'
+        - type: INTEGER
+          name: columns.1.display
+          value: '2'
+        - type: STRING
+          name: columns.1.item
+          value: Unsupported items on {HOST.NAME}
+        - type: STRING
+          name: columns.1.name
+          value: Unsupported items
+        - type: INTEGER
+          name: columns.2.data
+          value: '1'
+        - type: INTEGER
+          name: columns.2.decimal_places
+          value: '0'
+        - type: STRING
+          name: columns.2.item
+          value: Zabbix agent availability
+        - type: STRING
+          name: columns.2.name
+          value: Available
+        - type: INTEGER
+          name: columns.3.data
+          value: '1'
+        - type: INTEGER
+          name: columns.3.display_value_as
+          value: '1'
+        - type: STRING
+          name: columns.3.item
+          value: Version of Zabbix agent running
+        - type: STRING
+          name: columns.3.name
+          value: Agent version
+        - type: INTEGER
+          name: columns.4.data
+          value: '1'
+        - type: INTEGER
+          name: columns.4.display_value_as
+          value: '1'
+        - type: STRING
+          name: columns.4.item
+          value: System description
+        - type: STRING
+          name: columns.4.name
+          value: System
+        - type: INTEGER
+          name: maintenance
+          value: '1'
+        - type: STRING
+          name: reference
+          value: AH001
+        - type: INTEGER
+          name: show_lines
+          value: '200'
+      - type: honeycomb
+        name: smartctl exit status (0 = OK) - is collection working
+        width: '72'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Exit status'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: thresholds.0.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: E45959
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '1'
+        - type: STRING
+          name: reference
+          value: AH002
+        y: '10'
+    - name: Failure Signals
+      widgets:
+      - type: honeycomb
+        name: Available spare % (low = bad)
+        width: '24'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Available spare'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: secondary_label_units
+          value: '%'
+        - type: STRING
+          name: thresholds.0.color
+          value: E45959
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: FFC859
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '20'
+        - type: STRING
+          name: thresholds.2.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.2.threshold
+          value: '50'
+        - type: STRING
+          name: reference
+          value: AH003
+      - type: honeycomb
+        name: Spare headroom above threshold
+        width: '24'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Spare headroom'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: secondary_label_units
+          value: '%'
+        - type: STRING
+          name: thresholds.0.color
+          value: E45959
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: FFC859
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '20'
+        - type: STRING
+          name: thresholds.2.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.2.threshold
+          value: '40'
+        - type: STRING
+          name: reference
+          value: AH004
+        x: '24'
+      - type: honeycomb
+        name: Critical warning (0 = OK)
+        width: '24'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Critical warning'
+        - type: STRING
+          name: item_tags.0.tag
+          value: disktype
+        - type: INTEGER
+          name: item_tags.0.operator
+          value: '1'
+        - type: STRING
+          name: item_tags.0.value
+          value: nvme
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: thresholds.0.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: E45959
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '1'
+        - type: STRING
+          name: reference
+          value: AH005
+        x: '48'
+      - type: honeycomb
+        name: Media errors (0 = OK)
+        width: '24'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Media errors'
+        - type: STRING
+          name: item_tags.0.tag
+          value: disktype
+        - type: INTEGER
+          name: item_tags.0.operator
+          value: '1'
+        - type: STRING
+          name: item_tags.0.value
+          value: nvme
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: thresholds.0.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: E45959
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '1'
+        - type: STRING
+          name: reference
+          value: AH006
+        y: '10'
+      - type: honeycomb
+        name: Error log entries (0 = OK)
+        width: '24'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Error log entries'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: thresholds.0.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: E45959
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '1'
+        - type: STRING
+          name: reference
+          value: AH007
+        x: '24'
+        y: '10'
+      - type: honeycomb
+        name: Self-test passed (0 = FAILED)
+        width: '24'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Self-test passed'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: thresholds.0.color
+          value: E45959
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '1'
+        - type: STRING
+          name: reference
+          value: AH008
+        x: '48'
+        y: '10'
+      - type: honeycomb
+        name: Reallocated sectors (SATA/HDD)
+        width: '36'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Reallocated_Sector_Ct'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: thresholds.0.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: E45959
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '1'
+        - type: STRING
+          name: reference
+          value: AH009
+        y: '20'
+      - type: honeycomb
+        name: Reported uncorrectable (SATA/HDD)
+        width: '36'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Reported_Uncorrect'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: thresholds.0.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: E45959
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '1'
+        - type: STRING
+          name: reference
+          value: AH010
+        x: '36'
+        y: '20'
+    - name: Workload
+      widgets:
+      - type: honeycomb
+        name: Write rate
+        width: '36'
+        height: '11'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Write rate'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '2'
+        - type: STRING
+          name: reference
+          value: AH011
+      - type: honeycomb
+        name: Total bytes written
+        width: '36'
+        height: '11'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Bytes written'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '1'
+        - type: STRING
+          name: reference
+          value: AH012
+        x: '36'
+      - type: honeycomb
+        name: Data units read
+        width: '24'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Data units read'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: reference
+          value: AH013
+        y: '11'
+      - type: honeycomb
+        name: Controller busy time
+        width: '24'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Controller busy time'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: reference
+          value: AH014
+        x: '24'
+        y: '11'
+      - type: honeycomb
+        name: Unsafe shutdowns
+        width: '24'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Unsafe shutdowns'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: thresholds.0.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: FFC859
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '5'
+        - type: STRING
+          name: thresholds.2.color
+          value: E45959
+        - type: STRING
+          name: thresholds.2.threshold
+          value: '20'
+        - type: STRING
+          name: reference
+          value: AH015
+        x: '48'
+        y: '11'
+    - name: TBW Wear Forecast
+      widgets:
+      - type: honeycomb
+        name: Endurance used vs RATED TBW (datasheet)
+        width: '36'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Endurance used vs rated TBW'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '1'
+        - type: STRING
+          name: secondary_label_units
+          value: '%'
+        - type: STRING
+          name: thresholds.0.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: FFC859
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '60'
+        - type: STRING
+          name: thresholds.2.color
+          value: E45959
+        - type: STRING
+          name: thresholds.2.threshold
+          value: '80'
+        - type: STRING
+          name: reference
+          value: AH016
+      - type: honeycomb
+        name: Endurance used (drive's own estimate)
+        width: '36'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Percentage used'
+        - type: STRING
+          name: item_tags.0.tag
+          value: disktype
+        - type: INTEGER
+          name: item_tags.0.operator
+          value: '1'
+        - type: STRING
+          name: item_tags.0.value
+          value: nvme
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: secondary_label_units
+          value: '%'
+        - type: STRING
+          name: thresholds.0.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: FFC859
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '80'
+        - type: STRING
+          name: thresholds.2.color
+          value: E45959
+        - type: STRING
+          name: thresholds.2.threshold
+          value: '90'
+        - type: STRING
+          name: reference
+          value: AH017
+        x: '36'
+      - type: honeycomb
+        name: Endurance in 6 months
+        width: '24'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Endurance in 6 months'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '1'
+        - type: STRING
+          name: secondary_label_units
+          value: '%'
+        - type: STRING
+          name: thresholds.0.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: FFC859
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '60'
+        - type: STRING
+          name: thresholds.2.color
+          value: E45959
+        - type: STRING
+          name: thresholds.2.threshold
+          value: '80'
+        - type: STRING
+          name: reference
+          value: AH018
+        y: '10'
+      - type: honeycomb
+        name: Endurance in 12 months
+        width: '24'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Endurance in 12 months'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '1'
+        - type: STRING
+          name: secondary_label_units
+          value: '%'
+        - type: STRING
+          name: thresholds.0.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: FFC859
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '60'
+        - type: STRING
+          name: thresholds.2.color
+          value: E45959
+        - type: STRING
+          name: thresholds.2.threshold
+          value: '80'
+        - type: STRING
+          name: reference
+          value: AH019
+        x: '24'
+        y: '10'
+      - type: honeycomb
+        name: Endurance in 24 months
+        width: '24'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Endurance in 24 months'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '1'
+        - type: STRING
+          name: secondary_label_units
+          value: '%'
+        - type: STRING
+          name: thresholds.0.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: FFC859
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '60'
+        - type: STRING
+          name: thresholds.2.color
+          value: E45959
+        - type: STRING
+          name: thresholds.2.threshold
+          value: '80'
+        - type: STRING
+          name: reference
+          value: AH020
+        x: '48'
+        y: '10'
+      - type: honeycomb
+        name: Projected replacement date
+        width: '36'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Projected replacement date'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: reference
+          value: AH021
+        y: '20'
+      - type: honeycomb
+        name: Projected lifespan remaining
+        width: '36'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Projected lifespan remaining'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: reference
+          value: AH022
+        x: '36'
+        y: '20'
+    - name: Temperature
+      widgets:
+      - type: honeycomb
+        name: Drive temperature - all devices
+        width: '72'
+        height: '13'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Temperature'
+        - type: STRING
+          name: item_tags.0.tag
+          value: component
+        - type: INTEGER
+          name: item_tags.0.operator
+          value: '1'
+        - type: STRING
+          name: item_tags.0.value
+          value: temperature
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: secondary_label_units
+          value: C
+        - type: STRING
+          name: thresholds.0.color
+          value: 7499FF
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '25'
+        - type: STRING
+          name: thresholds.2.color
+          value: FFC859
+        - type: STRING
+          name: thresholds.2.threshold
+          value: '50'
+        - type: STRING
+          name: thresholds.3.color
+          value: E45959
+        - type: STRING
+          name: thresholds.3.threshold
+          value: '60'
+        - type: STRING
+          name: reference
+          value: AH023
+      - type: honeycomb
+        name: Thermal throttling seconds (0 = never)
+        width: '72'
+        height: '8'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Warning temperature time'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: secondary_label_units
+          value: s
+        - type: STRING
+          name: thresholds.0.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: E45959
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '1'
+        - type: STRING
+          name: reference
+          value: AH024
+        y: '13'
+    - name: Aging & Inventory
+      widgets:
+      - type: honeycomb
+        name: Power on hours
+        width: '24'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Power on hours'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: thresholds.0.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: FFC859
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '35000'
+        - type: STRING
+          name: thresholds.2.color
+          value: E45959
+        - type: STRING
+          name: thresholds.2.threshold
+          value: '50000'
+        - type: STRING
+          name: reference
+          value: AH025
+      - type: honeycomb
+        name: Load cycle count (HDD head parking)
+        width: '24'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Load_Cycle_Count'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: thresholds.0.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: FFC859
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '200000'
+        - type: STRING
+          name: thresholds.2.color
+          value: E45959
+        - type: STRING
+          name: thresholds.2.threshold
+          value: '280000'
+        - type: STRING
+          name: reference
+          value: AH026
+        x: '24'
+      - type: honeycomb
+        name: Raw read error rate
+        width: '24'
+        height: '10'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Raw_Read_Error_Rate'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: thresholds.0.color
+          value: 59DB8F
+        - type: STRING
+          name: thresholds.0.threshold
+          value: '0'
+        - type: STRING
+          name: thresholds.1.color
+          value: FFC859
+        - type: STRING
+          name: thresholds.1.threshold
+          value: '1'
+        - type: STRING
+          name: reference
+          value: AH027
+        x: '48'
+      - type: honeycomb
+        name: Device model
+        width: '36'
+        height: '11'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Device model'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: secondary_label
+          value: '{ITEM.LASTVALUE}'
+        - type: INTEGER
+          name: secondary_label_type
+          value: '1'
+        - type: STRING
+          name: reference
+          value: AH028
+        y: '10'
+      - type: honeycomb
+        name: Firmware version
+        width: '36'
+        height: '11'
+        fields:
+        - type: STRING
+          name: items.0
+          value: '*]: Firmware version'
+        - type: STRING
+          name: primary_label
+          value: '{HOST.NAME}
+
+            {{ITEM.NAME}.regsub("\[(.+)\]", \1)}'
+        - type: INTEGER
+          name: primary_label_size
+          value: '11'
+        - type: INTEGER
+          name: secondary_label_decimal_places
+          value: '0'
+        - type: STRING
+          name: secondary_label
+          value: '{ITEM.LASTVALUE}'
+        - type: INTEGER
+          name: secondary_label_type
+          value: '1'
+        - type: STRING
+          name: reference
+          value: AH029
+        x: '36'
+        y: '10'
+    - name: Storage Problems
+      widgets:
+      - type: problems
+        name: Active storage problems
+        width: '72'
+        height: '10'
+        fields:
+        - type: STRING
+          name: reference
+          value: AH030
+        - type: INTEGER
+          name: tags.0.operator
+          value: '0'
+        - type: STRING
+          name: tags.0.tag
+          value: class
+        - type: STRING
+          name: tags.0.value
+          value: storage
+      - type: problems
+        name: All problems - drive hosts
+        y: '10'
+        width: '72'
+        height: '8'
+        fields:
+        - type: STRING
+          name: reference
+          value: AH031

@@ -1,0 +1,638 @@
+zabbix_export:
+  version: '8.0'
+  template_groups:
+  - uuid: ea1eb6b5952c4471ae0529fa68cc38d3
+    name: Templates/Server hardware
+  templates:
+  - uuid: ae54849e702b4a1c833f56a767a86af0
+    template: NVMe Extended SMART by Zabbix agent
+    name: NVMe Extended SMART by Zabbix agent
+    description: 'Collects the NVMe health-log fields the bundled Zabbix agent 2 SMART plugin discards - notably available_spare, available_spare_threshold
+      and data_units_written.
+
+
+      Link ALONGSIDE the stock SMART template; keys do not collide.
+
+
+      Requires the smart.ext UserParameters on the agent.'
+    groups:
+    - name: Templates/Server hardware
+    discovery_rules:
+    - uuid: 1c5ec6edbb4e418d959feec2309da959
+      name: NVMe device discovery
+      key: smart.ext.scan
+      delay: 1h
+      lifetime: 7d
+      description: Runs smartctl --scan -j and keeps only devices whose protocol is NVMe. Copes with NVMe presenting as sdb on one host and nvme0 on another
+        - no per-host configuration.
+      preprocessing:
+      - type: JAVASCRIPT
+        parameters:
+        - "var out = [];\ntry {\n    var d = JSON.parse(value).devices || [];\n    for (var i = 0; i < d.length; i++) {\n        if (d[i].protocol !== 'NVMe')\
+          \ { continue; }\n        out.push({\n            '{#DEVNAME}': String(d[i].name).replace('/dev/', ''),\n            '{#DEVPATH}': d[i].name,\n\
+          \            '{#DEVTYPE}': d[i].type\n        });\n    }\n} catch (e) { return '[]'; }\nreturn JSON.stringify(out);"
+      item_prototypes:
+      - uuid: 64b0dcf6b1224ea69cc01d68fad436b5
+        name: '[{#DEVNAME}]: SMART raw JSON'
+        key: smart.ext.raw["{#DEVPATH}","{#DEVTYPE}"]
+        delay: 5m
+        history: '0'
+        trends: '0'
+        value_type: TEXT
+        tags:
+        - tag: component
+          value: raw
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        description: Master item. One smartctl call per drive per poll; every other item is a dependent JSONPath off this. Do not add more direct-polling
+          items.
+      - uuid: 024a161d4f114b21b6a88b5fc114ec03
+        name: '[{#DEVNAME}]: Available spare'
+        type: DEPENDENT
+        key: smart.ext.available_spare["{#DEVNAME}"]
+        delay: '0'
+        history: 400d
+        trends: 400d
+        value_type: UNSIGNED
+        master_item:
+          key: smart.ext.raw["{#DEVPATH}","{#DEVTYPE}"]
+        preprocessing:
+        - type: JSONPATH
+          parameters:
+          - $.nvme_smart_health_information_log.available_spare
+        tags:
+        - tag: component
+          value: health
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        units: '%'
+        description: Percentage of the NVMe spare block pool remaining. Starts at 100. Falling below the threshold means real blocks are failing - replace
+          the drive.
+      - uuid: 6b5d7419c63f4979a50339d3457dc63c
+        name: '[{#DEVNAME}]: Available spare threshold'
+        type: DEPENDENT
+        key: smart.ext.available_spare_threshold["{#DEVNAME}"]
+        delay: '0'
+        history: 400d
+        trends: 400d
+        value_type: UNSIGNED
+        master_item:
+          key: smart.ext.raw["{#DEVPATH}","{#DEVTYPE}"]
+        preprocessing:
+        - type: JSONPATH
+          parameters:
+          - $.nvme_smart_health_information_log.available_spare_threshold
+        tags:
+        - tag: component
+          value: health
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        units: '%'
+        description: Vendor-set floor. Not standardised - read it, do not assume 10.
+      - uuid: 4f10cbf9413b40e68872590212c41361
+        name: '[{#DEVNAME}]: Data units written'
+        type: DEPENDENT
+        key: smart.ext.data_units_written["{#DEVNAME}"]
+        delay: '0'
+        history: 400d
+        trends: 400d
+        value_type: UNSIGNED
+        master_item:
+          key: smart.ext.raw["{#DEVPATH}","{#DEVTYPE}"]
+        preprocessing:
+        - type: JSONPATH
+          parameters:
+          - $.nvme_smart_health_information_log.data_units_written
+        tags:
+        - tag: component
+          value: health
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        description: Raw NVMe counter. 1 unit = 512,000 bytes.
+      - uuid: 8b46029005014efcbab3e3dadcbbd2a3
+        name: '[{#DEVNAME}]: Bytes written'
+        type: DEPENDENT
+        key: smart.ext.bytes_written["{#DEVNAME}"]
+        delay: '0'
+        history: 400d
+        trends: 400d
+        value_type: UNSIGNED
+        master_item:
+          key: smart.ext.raw["{#DEVPATH}","{#DEVTYPE}"]
+        preprocessing:
+        - type: JSONPATH
+          parameters:
+          - $.nvme_smart_health_information_log.data_units_written
+        - type: MULTIPLIER
+          parameters:
+          - '512000'
+        tags:
+        - tag: component
+          value: health
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        units: B
+        description: Cumulative host writes. Trend this against rated TBW to forecast replacement.
+      - uuid: 61867022a0d148759ab71c1f149c2bac
+        name: '[{#DEVNAME}]: Write rate'
+        type: DEPENDENT
+        key: smart.ext.write_rate["{#DEVNAME}"]
+        delay: '0'
+        history: 400d
+        trends: 400d
+        value_type: FLOAT
+        master_item:
+          key: smart.ext.raw["{#DEVPATH}","{#DEVTYPE}"]
+        preprocessing:
+        - type: JSONPATH
+          parameters:
+          - $.nvme_smart_health_information_log.data_units_written
+        - type: CHANGE_PER_SECOND
+          parameters:
+          - ''
+        - type: MULTIPLIER
+          parameters:
+          - '512000'
+        tags:
+        - tag: component
+          value: health
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        units: Bps
+        description: Live write throughput. Leading indicator - if this climbs, every replacement forecast moves in automatically.
+      - uuid: a455851eeab44bc09a4666d6d82b77d1
+        name: '[{#DEVNAME}]: Data units read'
+        type: DEPENDENT
+        key: smart.ext.data_units_read["{#DEVNAME}"]
+        delay: '0'
+        history: 400d
+        trends: 400d
+        value_type: UNSIGNED
+        master_item:
+          key: smart.ext.raw["{#DEVPATH}","{#DEVTYPE}"]
+        preprocessing:
+        - type: JSONPATH
+          parameters:
+          - $.nvme_smart_health_information_log.data_units_read
+        tags:
+        - tag: component
+          value: health
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+      - uuid: 1e8a96fd501c43e9bef313f231219bce
+        name: '[{#DEVNAME}]: Unsafe shutdowns'
+        type: DEPENDENT
+        key: smart.ext.unsafe_shutdowns["{#DEVNAME}"]
+        delay: '0'
+        history: 400d
+        trends: 400d
+        value_type: UNSIGNED
+        master_item:
+          key: smart.ext.raw["{#DEVPATH}","{#DEVTYPE}"]
+        preprocessing:
+        - type: JSONPATH
+          parameters:
+          - $.nvme_smart_health_information_log.unsafe_shutdowns
+        tags:
+        - tag: component
+          value: health
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        description: Unclean power loss count. Compare against power_cycles - a high ratio means the host is going down hard and risking torn writes.
+      - uuid: 35c470ba869a4f708241d0f38af21da1
+        name: '[{#DEVNAME}]: Power cycles'
+        type: DEPENDENT
+        key: smart.ext.power_cycles["{#DEVNAME}"]
+        delay: '0'
+        history: 400d
+        trends: 400d
+        value_type: UNSIGNED
+        master_item:
+          key: smart.ext.raw["{#DEVPATH}","{#DEVTYPE}"]
+        preprocessing:
+        - type: JSONPATH
+          parameters:
+          - $.nvme_smart_health_information_log.power_cycles
+        tags:
+        - tag: component
+          value: health
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+      - uuid: 6b6fb974539b4eb1b0c8ba799295b7cf
+        name: '[{#DEVNAME}]: Error log entries'
+        type: DEPENDENT
+        key: smart.ext.num_err_log_entries["{#DEVNAME}"]
+        delay: '0'
+        history: 400d
+        trends: 400d
+        value_type: UNSIGNED
+        master_item:
+          key: smart.ext.raw["{#DEVPATH}","{#DEVTYPE}"]
+        preprocessing:
+        - type: JSONPATH
+          parameters:
+          - $.nvme_smart_health_information_log.num_err_log_entries
+        tags:
+        - tag: component
+          value: health
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+      - uuid: fcab7f3a98e44b5ba34da3905f2e7384
+        name: '[{#DEVNAME}]: Warning temperature time'
+        type: DEPENDENT
+        key: smart.ext.warning_temp_time["{#DEVNAME}"]
+        delay: '0'
+        history: 400d
+        trends: 400d
+        value_type: UNSIGNED
+        master_item:
+          key: smart.ext.raw["{#DEVPATH}","{#DEVTYPE}"]
+        preprocessing:
+        - type: JSONPATH
+          parameters:
+          - $.nvme_smart_health_information_log.warning_temp_time
+        tags:
+        - tag: component
+          value: temperature
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        units: s
+        description: Seconds spent above the warning temperature. Nonzero means thermal throttling, which accelerates wear.
+      - uuid: c86a47fbee444106b68eaf072726a77d
+        name: '[{#DEVNAME}]: Critical temperature time'
+        type: DEPENDENT
+        key: smart.ext.critical_comp_time["{#DEVNAME}"]
+        delay: '0'
+        history: 400d
+        trends: 400d
+        value_type: UNSIGNED
+        master_item:
+          key: smart.ext.raw["{#DEVPATH}","{#DEVTYPE}"]
+        preprocessing:
+        - type: JSONPATH
+          parameters:
+          - $.nvme_smart_health_information_log.critical_comp_time
+        tags:
+        - tag: component
+          value: temperature
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        units: s
+      - uuid: db4467d220c3464082597507cad541cd
+        name: '[{#DEVNAME}]: Controller busy time'
+        type: DEPENDENT
+        key: smart.ext.controller_busy_time["{#DEVNAME}"]
+        delay: '0'
+        history: 400d
+        trends: 400d
+        value_type: UNSIGNED
+        master_item:
+          key: smart.ext.raw["{#DEVPATH}","{#DEVTYPE}"]
+        preprocessing:
+        - type: JSONPATH
+          parameters:
+          - $.nvme_smart_health_information_log.controller_busy_time
+        tags:
+        - tag: component
+          value: health
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        units: s
+      - uuid: 965745a6a2f2426998d0afb2667644f1
+        name: '[{#DEVNAME}]: Firmware version'
+        type: DEPENDENT
+        key: smart.ext.firmware["{#DEVNAME}"]
+        delay: '0'
+        history: 400d
+        trends: '0'
+        value_type: CHAR
+        master_item:
+          key: smart.ext.raw["{#DEVPATH}","{#DEVTYPE}"]
+        preprocessing:
+        - type: JSONPATH
+          parameters:
+          - $.firmware_version
+        - type: DISCARD_UNCHANGED_HEARTBEAT
+          parameters:
+          - 1d
+        tags:
+        - tag: component
+          value: inventory
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        description: Watch this. Samsung 980 PRO 2TB on 3B2QGXA7 fails permanently to read-only; 5B2QGXA7 is the fix.
+      - uuid: 1a5fc596ee374060abcc64ae5246bc9d
+        name: '[{#DEVNAME}]: Rated capacity'
+        type: DEPENDENT
+        key: smart.ext.capacity["{#DEVNAME}"]
+        delay: '0'
+        history: 400d
+        trends: 400d
+        value_type: UNSIGNED
+        master_item:
+          key: smart.ext.raw["{#DEVPATH}","{#DEVTYPE}"]
+        preprocessing:
+        - type: JSONPATH
+          parameters:
+          - $.nvme_total_capacity
+        - type: DISCARD_UNCHANGED_HEARTBEAT
+          parameters:
+          - 1d
+        tags:
+        - tag: component
+          value: inventory
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        units: B
+      - uuid: 73d18aafe54d40c4a19de89db9e6dcdf
+        name: '[{#DEVNAME}]: Spare headroom'
+        type: CALCULATED
+        key: smart.ext.spare_headroom["{#DEVNAME}"]
+        delay: 5m
+        history: 400d
+        trends: 400d
+        value_type: FLOAT
+        units: '%'
+        params: last(//smart.ext.available_spare["{#DEVNAME}"]) - last(//smart.ext.available_spare_threshold["{#DEVNAME}"])
+        tags:
+        - tag: component
+          value: health
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        description: Percentage points between available spare and its threshold. Hits zero = drive is failing now.
+      - uuid: 42f7c302e0e34695903082756e6e0b38
+        name: '[{#DEVNAME}]: Endurance used vs rated TBW'
+        type: CALCULATED
+        key: smart.ext.endurance_rated["{#DEVNAME}"]
+        delay: 10m
+        history: 400d
+        trends: 400d
+        value_type: FLOAT
+        units: '%'
+        params: last(//smart.ext.bytes_written["{#DEVNAME}"]) / ({$NVME.TBW:"{#DEVNAME}"} * 1000000000000) * 100
+        tags:
+        - tag: component
+          value: health
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        description: Wear against the DATASHEET rating, not the controller estimate. The controller is typically optimistic - a Samsung 980 PRO 2TB reporting
+          30%% used is 39.7%% of its 1200 TBW rating. Set {$NVME.TBW} per drive; context macro supported, e.g. {$NVME.TBW:"nvme0"} = 1200.
+      - uuid: 83ad6eea4c844c3e9bb4f92f94afa93c
+        name: '[{#DEVNAME}]: Projected lifespan remaining'
+        type: CALCULATED
+        key: smart.ext.lifespan["{#DEVNAME}"]
+        delay: 1h
+        history: 400d
+        trends: 400d
+        value_type: FLOAT
+        units: s
+        params: (({$NVME.TBW:"{#DEVNAME}"} * {$NVME.PLAN.PCT:"{#DEVNAME}"} / 100 * 1000000000000) - last(//smart.ext.bytes_written["{#DEVNAME}"])) / (avg(//smart.ext.write_rate["{#DEVNAME}"],7d)
+          + 1)
+        preprocessing:
+        - type: IN_RANGE
+          parameters:
+          - '0'
+          - '631152000'
+          error_handler: DISCARD_VALUE
+        tags:
+        - tag: component
+          value: health
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        description: Time until the planning threshold (default 80% of rated TBW) at the current 7-day average write rate. Rendered by Zabbix as e.g. "1y
+          2M 3d". Blank if the projection exceeds 20 years, which means the drive is effectively not wearing out.
+      - uuid: 402b415e3d4d416daa4ce0b58ce70bb1
+        name: '[{#DEVNAME}]: Projected replacement date'
+        type: CALCULATED
+        key: smart.ext.replace_by["{#DEVNAME}"]
+        delay: 1h
+        history: 400d
+        trends: '0'
+        value_type: FLOAT
+        units: unixtime
+        params: now() + (({$NVME.TBW:"{#DEVNAME}"} * {$NVME.PLAN.PCT:"{#DEVNAME}"} / 100 * 1000000000000) - last(//smart.ext.bytes_written["{#DEVNAME}"]))
+          / (avg(//smart.ext.write_rate["{#DEVNAME}"],7d) + 1)
+        preprocessing:
+        - type: IN_RANGE
+          parameters:
+          - '1780000000'
+          - '2500000000'
+          error_handler: DISCARD_VALUE
+        tags:
+        - tag: component
+          value: health
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        description: The same figure as a calendar date. This is the number for a budget line. Blank when the projection is beyond 2049.
+      - uuid: e822ef3c73f8479e8936701507af0675
+        name: '[{#DEVNAME}]: Endurance in 6 months'
+        type: CALCULATED
+        key: smart.ext.endurance_in_6m["{#DEVNAME}"]
+        delay: 1h
+        history: 400d
+        trends: 400d
+        value_type: FLOAT
+        units: '%'
+        params: last(//smart.ext.endurance_rated["{#DEVNAME}"]) + avg(//smart.ext.write_rate["{#DEVNAME}"],7d) * 15768000 / ({$NVME.TBW:"{#DEVNAME}"} *
+          1000000000000) * 100
+        tags:
+        - tag: component
+          value: health
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        description: Wear against rated TBW projected 6 months out at the current 7-day average write rate. Can exceed 100%, which means the drive passes
+          its rated endurance before then. Recomputes as the workload changes.
+      - uuid: b32566219ab8483f9fe4ec1f25913d99
+        name: '[{#DEVNAME}]: Endurance in 12 months'
+        type: CALCULATED
+        key: smart.ext.endurance_in_12m["{#DEVNAME}"]
+        delay: 1h
+        history: 400d
+        trends: 400d
+        value_type: FLOAT
+        units: '%'
+        params: last(//smart.ext.endurance_rated["{#DEVNAME}"]) + avg(//smart.ext.write_rate["{#DEVNAME}"],7d) * 31536000 / ({$NVME.TBW:"{#DEVNAME}"} *
+          1000000000000) * 100
+        tags:
+        - tag: component
+          value: health
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        description: Wear against rated TBW projected 12 months out at the current 7-day average write rate. Can exceed 100%, which means the drive passes
+          its rated endurance before then. Recomputes as the workload changes.
+      - uuid: c1729a8810cd47cbbc57bf21e55a055e
+        name: '[{#DEVNAME}]: Endurance in 24 months'
+        type: CALCULATED
+        key: smart.ext.endurance_in_24m["{#DEVNAME}"]
+        delay: 1h
+        history: 400d
+        trends: 400d
+        value_type: FLOAT
+        units: '%'
+        params: last(//smart.ext.endurance_rated["{#DEVNAME}"]) + avg(//smart.ext.write_rate["{#DEVNAME}"],7d) * 63072000 / ({$NVME.TBW:"{#DEVNAME}"} *
+          1000000000000) * 100
+        tags:
+        - tag: component
+          value: health
+        - tag: diskname
+          value: '{#DEVNAME}'
+        - tag: disktype
+          value: nvme
+        - tag: class
+          value: storage
+        description: Wear against rated TBW projected 24 months out at the current 7-day average write rate. Can exceed 100%, which means the drive passes
+          its rated endurance before then. Recomputes as the workload changes.
+      trigger_prototypes:
+      - uuid: da861f4eed6c44ed9d871d0af43ec0cb
+        expression: last(/NVMe Extended SMART by Zabbix agent/smart.ext.available_spare["{#DEVNAME}"]) < last(/NVMe Extended SMART by Zabbix agent/smart.ext.available_spare_threshold["{#DEVNAME}"])
+        name: 'NVMe [{#DEVNAME}]: Available spare below threshold - REPLACE NOW'
+        priority: DISASTER
+        description: Spare block pool exhausted. This is real failure, not wear.
+        tags:
+        - tag: scope
+          value: availability
+        - tag: class
+          value: storage
+      - uuid: a114b475811542899165bd3a3fab96d1
+        expression: last(/NVMe Extended SMART by Zabbix agent/smart.ext.num_err_log_entries["{#DEVNAME}"]) > 0 and change(/NVMe Extended SMART by Zabbix
+          agent/smart.ext.num_err_log_entries["{#DEVNAME}"]) > 0
+        name: 'NVMe [{#DEVNAME}]: Error log entries increasing'
+        priority: HIGH
+        tags:
+        - tag: scope
+          value: availability
+        - tag: class
+          value: storage
+      - uuid: f4e45a283ed14e48b31279a317d59d7d
+        expression: min(/NVMe Extended SMART by Zabbix agent/smart.ext.spare_headroom["{#DEVNAME}"],1h) < 20
+        name: 'NVMe [{#DEVNAME}]: Spare headroom below 20 points'
+        priority: AVERAGE
+        tags:
+        - tag: scope
+          value: availability
+        - tag: class
+          value: storage
+      - uuid: 705b7e97dcd2436795adfb0032980386
+        expression: last(/NVMe Extended SMART by Zabbix agent/smart.ext.endurance_rated["{#DEVNAME}"]) > 80
+        name: 'NVMe [{#DEVNAME}]: Endurance above 80% of rated TBW'
+        priority: AVERAGE
+        description: Planning threshold against the datasheet rating.
+        tags:
+        - tag: scope
+          value: capacity
+        - tag: class
+          value: storage
+      - uuid: 06435edaabf94243bfd02c5877eca1a3
+        expression: last(/NVMe Extended SMART by Zabbix agent/smart.ext.endurance_in_12m["{#DEVNAME}"]) > 80
+        name: 'NVMe [{#DEVNAME}]: Forecast to exceed 80% endurance within 12 months'
+        priority: WARNING
+        description: Procurement lead time. Fires on the projection, not the current level, so it gives you a budget cycle of warning. Rate-based - cannot
+          return infinity or divide by zero.
+        tags:
+        - tag: scope
+          value: capacity
+        - tag: class
+          value: storage
+      - uuid: 66517a5d3ee2420a9fea9fca2c37784e
+        expression: last(/NVMe Extended SMART by Zabbix agent/smart.ext.warning_temp_time["{#DEVNAME}"]) > 0 and change(/NVMe Extended SMART by Zabbix agent/smart.ext.warning_temp_time["{#DEVNAME}"])
+          > 0
+        name: 'NVMe [{#DEVNAME}]: Thermal throttling occurring'
+        priority: WARNING
+        tags:
+        - tag: scope
+          value: availability
+        - tag: class
+          value: storage
+    macros:
+    - macro: '{$NVME.PLAN.PCT}'
+      value: '80'
+      description: Planning threshold as a percentage of rated TBW. The projected lifespan and replacement date count down to this, not to 100%. Override
+        per drive if wanted.
+    - macro: '{$NVME.TBW}'
+      value: '600'
+      description: Rated endurance in TB. Override per drive with a context macro, e.g. {$NVME.TBW:"nvme0"} = 1200 for a Samsung 980 PRO 2TB. Default 600
+        is deliberately conservative.
