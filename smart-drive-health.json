@@ -1,0 +1,1821 @@
+{
+  "jsonrpc": "2.0",
+  "method": "dashboard.create",
+  "id": 1,
+  "params": {
+    "name": "Smart Drive Health (Auto)",
+    "private": 1,
+    "pages": [
+      {
+        "widgets": [
+          {
+            "type": "tophosts",
+            "x": 0,
+            "y": 0,
+            "width": 72,
+            "height": 10,
+            "name": "Host / SMART collection status",
+            "fields": [
+              {
+                "type": 0,
+                "name": "column",
+                "value": 1
+              },
+              {
+                "type": 0,
+                "name": "columns.0.data",
+                "value": 2
+              },
+              {
+                "type": 1,
+                "name": "columns.0.name",
+                "value": "Hostname"
+              },
+              {
+                "type": 0,
+                "name": "columns.1.data",
+                "value": 1
+              },
+              {
+                "type": 0,
+                "name": "columns.1.display",
+                "value": 2
+              },
+              {
+                "type": 1,
+                "name": "columns.1.item",
+                "value": "Unsupported items on {HOST.NAME}"
+              },
+              {
+                "type": 1,
+                "name": "columns.1.name",
+                "value": "Unsupported items"
+              },
+              {
+                "type": 0,
+                "name": "columns.2.data",
+                "value": 1
+              },
+              {
+                "type": 0,
+                "name": "columns.2.decimal_places",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "columns.2.item",
+                "value": "Zabbix agent availability"
+              },
+              {
+                "type": 1,
+                "name": "columns.2.name",
+                "value": "Available"
+              },
+              {
+                "type": 0,
+                "name": "columns.3.data",
+                "value": 1
+              },
+              {
+                "type": 0,
+                "name": "columns.3.display_value_as",
+                "value": 1
+              },
+              {
+                "type": 1,
+                "name": "columns.3.item",
+                "value": "Version of Zabbix agent running"
+              },
+              {
+                "type": 1,
+                "name": "columns.3.name",
+                "value": "Agent version"
+              },
+              {
+                "type": 0,
+                "name": "columns.4.data",
+                "value": 1
+              },
+              {
+                "type": 0,
+                "name": "columns.4.display_value_as",
+                "value": 1
+              },
+              {
+                "type": 1,
+                "name": "columns.4.item",
+                "value": "System description"
+              },
+              {
+                "type": 1,
+                "name": "columns.4.name",
+                "value": "System"
+              },
+              {
+                "type": 0,
+                "name": "maintenance",
+                "value": 1
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH001"
+              },
+              {
+                "type": 0,
+                "name": "show_lines",
+                "value": 200
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 0,
+            "y": 10,
+            "width": 72,
+            "height": 10,
+            "name": "smartctl exit status (0 = OK) - is collection working",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Exit status"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH002"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "1"
+              }
+            ]
+          }
+        ],
+        "name": "Fleet Health"
+      },
+      {
+        "widgets": [
+          {
+            "type": "honeycomb",
+            "x": 0,
+            "y": 0,
+            "width": 24,
+            "height": 10,
+            "name": "Available spare % (low = bad)",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Available spare"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH003"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "secondary_label_units",
+                "value": "%"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "FFC859"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "20"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.threshold",
+                "value": "50"
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 0,
+            "y": 10,
+            "width": 24,
+            "height": 10,
+            "name": "Media errors (0 = OK)",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Media errors"
+              },
+              {
+                "type": 0,
+                "name": "item_tags.0.operator",
+                "value": 1
+              },
+              {
+                "type": 1,
+                "name": "item_tags.0.tag",
+                "value": "disktype"
+              },
+              {
+                "type": 1,
+                "name": "item_tags.0.value",
+                "value": "nvme"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH006"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "1"
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 0,
+            "y": 20,
+            "width": 36,
+            "height": 10,
+            "name": "Reallocated sectors (SATA/HDD)",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Reallocated_Sector_Ct"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH009"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "1"
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 24,
+            "y": 0,
+            "width": 24,
+            "height": 10,
+            "name": "Spare headroom above threshold",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Spare headroom"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH004"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "secondary_label_units",
+                "value": "%"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "FFC859"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "20"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.threshold",
+                "value": "40"
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 24,
+            "y": 10,
+            "width": 24,
+            "height": 10,
+            "name": "Error log entries (0 = OK)",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Error log entries"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH007"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "1"
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 36,
+            "y": 20,
+            "width": 36,
+            "height": 10,
+            "name": "Reported uncorrectable (SATA/HDD)",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Reported_Uncorrect"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH010"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "1"
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 48,
+            "y": 0,
+            "width": 24,
+            "height": 10,
+            "name": "Critical warning (0 = OK)",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Critical warning"
+              },
+              {
+                "type": 0,
+                "name": "item_tags.0.operator",
+                "value": 1
+              },
+              {
+                "type": 1,
+                "name": "item_tags.0.tag",
+                "value": "disktype"
+              },
+              {
+                "type": 1,
+                "name": "item_tags.0.value",
+                "value": "nvme"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH005"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "1"
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 48,
+            "y": 10,
+            "width": 24,
+            "height": 10,
+            "name": "Self-test passed (0 = FAILED)",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Self-test passed"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH008"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "1"
+              }
+            ]
+          }
+        ],
+        "name": "Failure Signals"
+      },
+      {
+        "widgets": [
+          {
+            "type": "honeycomb",
+            "x": 0,
+            "y": 0,
+            "width": 36,
+            "height": 11,
+            "name": "Write rate",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Write rate"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH011"
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 0,
+            "y": 11,
+            "width": 24,
+            "height": 10,
+            "name": "Data units read",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Data units read"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH013"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 24,
+            "y": 11,
+            "width": 24,
+            "height": 10,
+            "name": "Controller busy time",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Controller busy time"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH014"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 36,
+            "y": 0,
+            "width": 36,
+            "height": 11,
+            "name": "Total bytes written",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Bytes written"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH012"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 1
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 48,
+            "y": 11,
+            "width": 24,
+            "height": 10,
+            "name": "Unsafe shutdowns",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Unsafe shutdowns"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH015"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "FFC859"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "5"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.threshold",
+                "value": "20"
+              }
+            ]
+          }
+        ],
+        "name": "Workload"
+      },
+      {
+        "widgets": [
+          {
+            "type": "honeycomb",
+            "x": 0,
+            "y": 0,
+            "width": 36,
+            "height": 10,
+            "name": "Endurance used vs RATED TBW (datasheet)",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Endurance used vs rated TBW"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH016"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 1
+              },
+              {
+                "type": 1,
+                "name": "secondary_label_units",
+                "value": "%"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "FFC859"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "60"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.threshold",
+                "value": "80"
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 0,
+            "y": 10,
+            "width": 24,
+            "height": 10,
+            "name": "Endurance in 6 months",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Endurance in 6 months"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH018"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 1
+              },
+              {
+                "type": 1,
+                "name": "secondary_label_units",
+                "value": "%"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "FFC859"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "60"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.threshold",
+                "value": "80"
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 0,
+            "y": 20,
+            "width": 36,
+            "height": 10,
+            "name": "Projected replacement date",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Projected replacement date"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH021"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 24,
+            "y": 10,
+            "width": 24,
+            "height": 10,
+            "name": "Endurance in 12 months",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Endurance in 12 months"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH019"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 1
+              },
+              {
+                "type": 1,
+                "name": "secondary_label_units",
+                "value": "%"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "FFC859"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "60"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.threshold",
+                "value": "80"
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 36,
+            "y": 0,
+            "width": 36,
+            "height": 10,
+            "name": "Endurance used (drive's own estimate)",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Percentage used"
+              },
+              {
+                "type": 0,
+                "name": "item_tags.0.operator",
+                "value": 1
+              },
+              {
+                "type": 1,
+                "name": "item_tags.0.tag",
+                "value": "disktype"
+              },
+              {
+                "type": 1,
+                "name": "item_tags.0.value",
+                "value": "nvme"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH017"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "secondary_label_units",
+                "value": "%"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "FFC859"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "80"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.threshold",
+                "value": "90"
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 36,
+            "y": 20,
+            "width": 36,
+            "height": 10,
+            "name": "Projected lifespan remaining",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Projected lifespan remaining"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH022"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 48,
+            "y": 10,
+            "width": 24,
+            "height": 10,
+            "name": "Endurance in 24 months",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Endurance in 24 months"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH020"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 1
+              },
+              {
+                "type": 1,
+                "name": "secondary_label_units",
+                "value": "%"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "FFC859"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "60"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.threshold",
+                "value": "80"
+              }
+            ]
+          }
+        ],
+        "name": "TBW Wear Forecast"
+      },
+      {
+        "widgets": [
+          {
+            "type": "honeycomb",
+            "x": 0,
+            "y": 0,
+            "width": 72,
+            "height": 13,
+            "name": "Drive temperature - all devices",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Temperature"
+              },
+              {
+                "type": 0,
+                "name": "item_tags.0.operator",
+                "value": 1
+              },
+              {
+                "type": 1,
+                "name": "item_tags.0.tag",
+                "value": "component"
+              },
+              {
+                "type": 1,
+                "name": "item_tags.0.value",
+                "value": "temperature"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH023"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "secondary_label_units",
+                "value": "C"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "7499FF"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "25"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.color",
+                "value": "FFC859"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.threshold",
+                "value": "50"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.3.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.3.threshold",
+                "value": "60"
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 0,
+            "y": 13,
+            "width": 72,
+            "height": 8,
+            "name": "Thermal throttling seconds (0 = never)",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Warning temperature time"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH024"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "secondary_label_units",
+                "value": "s"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "1"
+              }
+            ]
+          }
+        ],
+        "name": "Temperature"
+      },
+      {
+        "widgets": [
+          {
+            "type": "honeycomb",
+            "x": 0,
+            "y": 0,
+            "width": 24,
+            "height": 10,
+            "name": "Power on hours",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Power on hours"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH025"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "FFC859"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "35000"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.threshold",
+                "value": "50000"
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 0,
+            "y": 10,
+            "width": 36,
+            "height": 11,
+            "name": "Device model",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Device model"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH028"
+              },
+              {
+                "type": 1,
+                "name": "secondary_label",
+                "value": "{ITEM.LASTVALUE}"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 24,
+            "y": 0,
+            "width": 24,
+            "height": 10,
+            "name": "Load cycle count (HDD head parking)",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Load_Cycle_Count"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH026"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "FFC859"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "200000"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.color",
+                "value": "E45959"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.2.threshold",
+                "value": "280000"
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 36,
+            "y": 10,
+            "width": 36,
+            "height": 11,
+            "name": "Firmware version",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Firmware version"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH029"
+              },
+              {
+                "type": 1,
+                "name": "secondary_label",
+                "value": "{ITEM.LASTVALUE}"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              }
+            ]
+          },
+          {
+            "type": "honeycomb",
+            "x": 48,
+            "y": 0,
+            "width": 24,
+            "height": 10,
+            "name": "Raw read error rate",
+            "fields": [
+              {
+                "type": 1,
+                "name": "items.0",
+                "value": "*]: Raw_Read_Error_Rate"
+              },
+              {
+                "type": 1,
+                "name": "primary_label",
+                "value": "{HOST.NAME}\n{{ITEM.NAME}.regsub(\"\\[(.+)\\]\", \\1)}\n"
+              },
+              {
+                "type": 0,
+                "name": "primary_label_size",
+                "value": 11
+              },
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH027"
+              },
+              {
+                "type": 0,
+                "name": "secondary_label_decimal_places",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.color",
+                "value": "59DB8F"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.0.threshold",
+                "value": "0"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.color",
+                "value": "FFC859"
+              },
+              {
+                "type": 1,
+                "name": "thresholds.1.threshold",
+                "value": "1"
+              }
+            ]
+          }
+        ],
+        "name": "Aging & Inventory"
+      },
+      {
+        "widgets": [
+          {
+            "type": "problems",
+            "x": 0,
+            "y": 0,
+            "width": 72,
+            "height": 10,
+            "name": "Active storage problems",
+            "fields": [
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH030"
+              },
+              {
+                "type": 0,
+                "name": "tags.0.operator",
+                "value": 0
+              },
+              {
+                "type": 1,
+                "name": "tags.0.tag",
+                "value": "class"
+              },
+              {
+                "type": 1,
+                "name": "tags.0.value",
+                "value": "storage"
+              }
+            ]
+          },
+          {
+            "type": "problems",
+            "x": 0,
+            "y": 10,
+            "width": 72,
+            "height": 8,
+            "name": "All problems - drive hosts",
+            "fields": [
+              {
+                "type": 1,
+                "name": "reference",
+                "value": "AH031"
+              }
+            ]
+          }
+        ],
+        "name": "Storage Problems"
+      }
+    ]
+  }
+}
